@@ -3,12 +3,10 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 
 type FavoriteToggleButtonProps = {
-  productId: string;
   className?: string;
 };
 
 export default function FavoriteToggleButton({
-  productId,
   className
 }: FavoriteToggleButtonProps) {
   return (

@@ -39,7 +39,7 @@ export default function ProductCard({
           <h3 className="text-sm font-semibold text-muted-foreground">
             {formatCurrency(price)}
           </h3>
-          <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
+          <FavoriteToggleButton className="right-3 bottom-3" />
         </CardContent>
       </Link>
     </Card>

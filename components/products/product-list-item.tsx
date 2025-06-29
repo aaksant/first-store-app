@@ -43,7 +43,7 @@ export default function ProductListItem({
             )}
           </div>
           <h3 className="font-semibold ml-auto">{formatCurrency(price)}</h3>
-          <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
+          <FavoriteToggleButton className="right-3 bottom-3" />
         </CardContent>
       </Card>
     </Link>
