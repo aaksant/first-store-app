@@ -52,7 +52,7 @@ export default async function SingleProductPage({
             </h3>
             <AddToCartButton />
           </div>
-          <FavoriteToggleButton productId={id} className="right-3 top-0" />
+          <FavoriteToggleButton className="right-3 top-0" />
         </div>
       </div>
     </section>
