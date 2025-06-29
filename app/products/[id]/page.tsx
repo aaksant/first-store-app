@@ -12,9 +12,9 @@ import { Separator } from '@/components/ui/separator';
 export default async function SingleProductPage({
   params
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const product = await getSingleProduct(params.id);
+  const product = await getSingleProduct((await params).id);
   if (!product) redirect('/');
   const { id, name, company, description, image, price } = product;
 
