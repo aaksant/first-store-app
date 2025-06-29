@@ -14,7 +14,7 @@ export default async function SingleProductPage({
 }: {
   params: { id: string };
 }) {
-  const product = await getSingleProduct({ productId: params.id });
+  const product = await getSingleProduct(params.id);
   if (!product) redirect('/');
   const { id, name, company, description, image, price } = product;
 

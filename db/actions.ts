@@ -24,7 +24,7 @@ export async function getAllProducts({ search = '' }: { search: string }) {
   });
 }
 
-export async function getSingleProduct({ productId }: { productId: string }) {
+export async function getSingleProduct(productId: string) {
   return await prisma.product.findUnique({
     where: {
       id: productId
