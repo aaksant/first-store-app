@@ -9,15 +9,11 @@ import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
-type SingleProductPageProps = {
-  params: {
-    id: string;
-  };
-};
-
 export default async function SingleProductPage({
   params
-}: SingleProductPageProps) {
+}: {
+  params: { id: string };
+}) {
   const product = await getSingleProduct({ productId: params.id });
   if (!product) redirect('/');
   const { id, name, company, description, image, price } = product;
