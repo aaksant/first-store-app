@@ -20,9 +20,9 @@ export default function Sidebar() {
             className="flex-shrink-0 md:w-full"
           >
             <Button
-              variant={`${isActiveLink ? 'link' : 'ghost'}`}
+              variant="ghost"
               className={`font-normal rounded-none justify-start md:mb-2 w-full text-sm px-3 md:px-4 ${
-                isActiveLink ? 'border-b-2 border-primary' : ''
+                isActiveLink ? 'border-b-2 border-primary text-primary' : ''
               }`}
             >
               {adminLink.label}
