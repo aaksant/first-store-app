@@ -17,7 +17,7 @@ export default function Providers({ children }: ProvidersProps) {
       >
         {children}
       </ThemeProvider>
-      <Toaster />
+      <Toaster richColors />
     </>
   );
 }
