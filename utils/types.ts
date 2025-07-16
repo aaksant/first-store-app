@@ -1,4 +1,6 @@
+export type ActionStatus = 'idle' | 'success' | 'error';
+
 export type ActionFunction = (
   prevState: unknown,
   formData: FormData
-) => Promise<{ status: 'idle' | 'success' | 'error'; message: string }>;
+) => Promise<{ status: ActionStatus; message: string }>;
