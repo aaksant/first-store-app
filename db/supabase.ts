@@ -6,9 +6,10 @@ export const supabase = createClient(
   process.env.SUPABASE_KEY as string
 );
 
+const bucket = 'main-bucket';
+
 export async function uploadImage(image: File) {
-  const bucket = 'main-bucket';
-  const path = `${crypto.randomUUID()}/${image.name}`;
+  const path = `${crypto.randomUUID()}-${image.name}`;
 
   const { data, error } = await supabase.storage
     .from(bucket)
@@ -19,6 +20,18 @@ export async function uploadImage(image: File) {
   if (data) {
     return supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
   } else {
+    throw new Error(error.message);
+  }
+}
+
+export async function deleteImage(path: string) {
+  // uuid/path
+  const imagePath = path.split('/').pop();
+  const { error } = await supabase.storage
+    .from(bucket)
+    .remove([imagePath as string]);
+
+  if (error) {
     throw new Error(error.message);
   }
 }
