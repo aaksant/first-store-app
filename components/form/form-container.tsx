@@ -1,6 +1,7 @@
 'use client';
 
 import { ActionFunction } from '@/utils/types';
+import { useRouter } from 'next/navigation';
 import { ReactNode, useActionState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -17,15 +18,18 @@ export default function FormContainer({
     status: 'idle',
     message: ''
   });
+  const router = useRouter();
 
   useEffect(() => {
     if (state.status === 'success') {
       toast.success(state.message);
+      router.refresh();
     }
     if (state.status === 'error') {
       toast.error(state.message);
+      router.refresh();
     }
-  }, [state]);
+  }, [state, router]);
 
   return <form action={formAction}>{children}</form>;
 }
