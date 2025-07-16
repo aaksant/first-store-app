@@ -6,8 +6,14 @@ import {
   validateWithZodSchema
 } from '@/db/schemas';
 import prisma from './db';
-import { getAuthUser } from './helpers';
-import { uploadImage } from './supabase';
+import {
+  getAdminUser,
+  getAuthUser,
+  getActionErrorMessage,
+  getActionSuccessMessage
+} from './helpers';
+import { deleteImage, uploadImage } from './supabase';
+import { ActionStatus } from '@/utils/types';
 
 export async function getFeaturedProducts() {
   const products = await prisma.product.findMany({
@@ -44,7 +50,7 @@ export async function getSingleProduct(productId: string) {
 export async function createProductAction(
   prevState: unknown,
   formData: FormData
-): Promise<{ status: 'success' | 'error'; message: string }> {
+): Promise<{ status: ActionStatus; message: string }> {
   const user = await getAuthUser();
 
   try {
@@ -65,14 +71,38 @@ export async function createProductAction(
       }
     });
 
-    return {
-      status: 'success',
-      message: 'Product created. You can check it in the My Products menu'
-    };
+    return getActionSuccessMessage(
+      'Product created. You can check it in the My Products menu'
+    );
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An error occured';
-
-    return { status: 'error', message: errorMessage };
+    return getActionErrorMessage(error);
   }
+}
+
+export async function deleteProductAction(prevState: {
+  id: string;
+}): Promise<{ status: ActionStatus; message: string }> {
+  await getAdminUser();
+
+  try {
+    const deletedProduct = await prisma.product.delete({
+      where: {
+        id: prevState.id
+      }
+    });
+
+    await deleteImage(deletedProduct.image);
+    return getActionSuccessMessage('Product deleted');
+  } catch (error) {
+    return getActionErrorMessage(error);
+  }
+}
+
+export async function getAdminProducts() {
+  await getAdminUser();
+  return await prisma.product.findMany({
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
 }
