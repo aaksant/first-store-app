@@ -23,7 +23,7 @@ export default function CreateProductPage() {
           </div>
           <TextareaInput />
           <CheckboxInput name="isFeatured" label="Featured" />
-          <FormButton text="Submit" className="mt-8" />
+          <FormButton text="Create" className="mt-8" />
         </FormContainer>
       </div>
     </>

@@ -2,8 +2,8 @@
 
 import { useFormStatus } from 'react-dom';
 import { Button } from '../ui/button';
-import { RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { LoaderCircle } from 'lucide-react';
 
 type ButtonSize = 'default' | 'sm' | 'lg';
 
@@ -29,7 +29,7 @@ export default function FormButton({
     >
       {pending ? (
         <span className="inline-flex items-center gap-2">
-          <RotateCcw />
+          <LoaderCircle className="animate-spin" />
           Please wait...
         </span>
       ) : (
