@@ -14,15 +14,15 @@ import {
 } from './helpers';
 import { deleteImage, uploadImage } from './supabase';
 import { ActionStatus } from '@/utils/types';
+import { redirect } from 'next/navigation';
+import { Prisma } from '@prisma/client';
 
 export async function getFeaturedProducts() {
-  const products = await prisma.product.findMany({
+  return await prisma.product.findMany({
     where: {
       featured: true
     }
   });
-
-  return products;
 }
 
 export async function getAllProducts({ search = '' }: { search: string }) {
@@ -98,6 +98,55 @@ export async function deleteProductAction(prevState: {
   }
 }
 
+export async function updateProductAction(
+  prevState: unknown,
+  formData: FormData
+): Promise<{ status: ActionStatus; message: string }> {
+  await getAdminUser();
+  console.log('prevState', prevState);
+
+  try {
+    const updatedProductId = formData.get('id') as string;
+    const oldImageFilePath = formData.get('imagePath') as string;
+    const newInputData = Object.fromEntries(formData);
+    const newImageFile = formData.get('image') as File;
+
+    const productUpdateSchema = productSchema.omit({ image: true });
+    const validatedNewInputData = validateWithZodSchema(
+      productUpdateSchema,
+      newInputData
+    );
+
+    if (newImageFile) {
+      const validatedImageFile = validateWithZodSchema(imageSchema, {
+        image: newImageFile
+      });
+      const newImageFilePath = await uploadImage(validatedImageFile.image);
+
+      await prisma.product.update({
+        where: { id: updatedProductId },
+        data: {
+          ...validatedNewInputData,
+          image: newImageFilePath
+        }
+      });
+      await deleteImage(oldImageFilePath);
+    } else {
+      await prisma.product.update({
+        where: { id: updatedProductId },
+        data: {
+          ...validatedNewInputData,
+          image: oldImageFilePath
+        }
+      });
+    }
+
+    return getActionSuccessMessage('Product updated');
+  } catch (error) {
+    return getActionErrorMessage(error);
+  }
+}
+
 export async function getAdminProducts() {
   await getAdminUser();
   return await prisma.product.findMany({
@@ -105,4 +154,16 @@ export async function getAdminProducts() {
       createdAt: 'desc'
     }
   });
+}
+
+export async function getAdminProductDetail(id: string) {
+  await getAdminUser();
+  const adminProduct = await prisma.product.findUnique({
+    where: {
+      id: id
+    }
+  });
+
+  if (!adminProduct) redirect('/admin/products');
+  return adminProduct;
 }
