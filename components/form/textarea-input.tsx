@@ -1,7 +1,11 @@
 import { Textarea } from '../ui/textarea';
 import FormInput from './form-input';
 
-export default function TextareaInput() {
+export default function TextareaInput({
+  defaultValue
+}: {
+  defaultValue?: string;
+}) {
   return (
     <FormInput
       name="description"
@@ -9,6 +13,7 @@ export default function TextareaInput() {
       label="description"
       placeholder="Enter your product description"
       as={Textarea}
+      defaultValue={defaultValue}
     />
   );
 }
