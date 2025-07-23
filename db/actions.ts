@@ -15,7 +15,6 @@ import {
 import { deleteImage, uploadImage } from './supabase';
 import { ActionStatus } from '@/utils/types';
 import { redirect } from 'next/navigation';
-import { Prisma } from '@prisma/client';
 
 export async function getFeaturedProducts() {
   return await prisma.product.findMany({
@@ -103,7 +102,6 @@ export async function updateProductAction(
   formData: FormData
 ): Promise<{ status: ActionStatus; message: string }> {
   await getAdminUser();
-  console.log('prevState', prevState);
 
   try {
     const updatedProductId = formData.get('id') as string;
