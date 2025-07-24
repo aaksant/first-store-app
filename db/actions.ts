@@ -15,6 +15,7 @@ import {
 import { deleteImage, uploadImage } from './supabase';
 import { ActionStatus } from '@/utils/types';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function getFeaturedProducts() {
   return await prisma.product.findMany({
@@ -91,6 +92,7 @@ export async function deleteProductAction(prevState: {
     });
 
     await deleteImage(deletedProduct.image);
+    revalidatePath('/admin/products');
     return getActionSuccessMessage('Product deleted');
   } catch (error) {
     return getActionErrorMessage(error);
@@ -139,6 +141,7 @@ export async function updateProductAction(
       });
     }
 
+    revalidatePath(`/admin/products/${updatedProductId}/edit`);
     return getActionSuccessMessage('Product updated');
   } catch (error) {
     return getActionErrorMessage(error);
@@ -164,4 +167,49 @@ export async function getAdminProductDetail(id: string) {
 
   if (!adminProduct) redirect('/admin/products');
   return adminProduct;
+}
+
+export async function getFavoriteId(productId: string) {
+  const user = await getAuthUser();
+  const favoriteProduct = await prisma.favoriteProduct.findFirst({
+    where: {
+      productId,
+      clerkId: user.id
+    },
+    select: { id: true }
+  });
+
+  return favoriteProduct?.id || null;
+}
+
+export async function toggleFavoriteProductAction(prevState: {
+  productId: string;
+  favoriteId: string | null;
+}) {
+  const user = await getAuthUser();
+  const { productId, favoriteId } = prevState;
+
+  try {
+    if (favoriteId) {
+      await prisma.favoriteProduct.delete({
+        where: { id: favoriteId }
+      });
+    } else {
+      await prisma.favoriteProduct.create({
+        data: {
+          productId: productId,
+          clerkId: user.id
+        }
+      });
+    }
+
+    revalidatePath('/');
+    revalidatePath('/products');
+    revalidatePath(`/products/${productId}`);
+    return getActionSuccessMessage(
+      `${favoriteId ? 'Remove from favorites' : 'Added to favorites'}`
+    );
+  } catch (error) {
+    return getActionErrorMessage(error);
+  }
 }
