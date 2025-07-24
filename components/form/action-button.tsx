@@ -2,15 +2,16 @@
 
 import { useFormStatus } from 'react-dom';
 import { Button } from '../ui/button';
-import { LoaderCircle, Pen, Trash2 } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
+import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
-type ActionType = 'edit' | 'delete';
+type ActionButtonProps = {
+  className?: string;
+  icon?: ReactNode;
+};
 
-export default function ActionButton({
-  actionType
-}: {
-  actionType: ActionType;
-}) {
+export default function ActionButton({ className, icon }: ActionButtonProps) {
   const { pending } = useFormStatus();
 
   return (
@@ -19,19 +20,9 @@ export default function ActionButton({
       disabled={pending}
       variant="ghost"
       size="icon"
-      className={`btn text-muted-foreground ${
-        actionType === 'edit'
-          ? 'hover:text-primary hover:bg-blue-50'
-          : 'hover:text-destructive hover:bg-red-50'
-      }`}
+      className={cn('btn text-muted-foreground', className)}
     >
-      {pending ? (
-        <LoaderCircle className="animate-spin" />
-      ) : actionType === 'edit' ? (
-        <Pen />
-      ) : (
-        <Trash2 />
-      )}
+      {pending ? <LoaderCircle className="animate-spin" /> : icon}
     </Button>
   );
 }
