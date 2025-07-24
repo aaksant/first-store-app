@@ -13,12 +13,27 @@ import {
 } from '../ui/table';
 import Link from 'next/link';
 import { formatCurrency } from '@/utils/format';
+import { Pen, Trash2 } from 'lucide-react';
+
+function UpdateActionButton({ id }: { id: string }) {
+  return (
+    <Link href={`/admin/products/${id}/edit`}>
+      <ActionButton
+        className="hover:text-primary hover:bg-blue-50"
+        icon={<Pen />}
+      />
+    </Link>
+  );
+}
 
 function DeleteActionButton({ id }: { id: string }) {
   return (
     // bind prefills deleteProductAction with prevState.id, with the id argument
     <FormContainer action={deleteProductAction.bind(null, { id })}>
-      <ActionButton actionType="delete" />
+      <ActionButton
+        className="hover:text-destructive hover:bg-red-50"
+        icon={<Trash2 />}
+      />
     </FormContainer>
   );
 }
@@ -54,9 +69,7 @@ export default async function AdminProductsTable() {
               <TableCell>{company}</TableCell>
               <TableCell>{formatCurrency(price)}</TableCell>
               <TableCell className="flex items-center gap-x-2">
-                <Link href={`/admin/products/${id}/edit`}>
-                  <ActionButton actionType="edit" />
-                </Link>
+                <UpdateActionButton id={id} />
                 <DeleteActionButton id={id} />
               </TableCell>
             </TableRow>
