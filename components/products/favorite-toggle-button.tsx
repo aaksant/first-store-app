@@ -1,21 +1,38 @@
-import { Heart } from 'lucide-react';
-import { Button } from '../ui/button';
+import ActionButton from '../form/action-button';
+import { getFavoriteId, toggleFavoriteProductAction } from '@/db/actions';
 import { cn } from '@/lib/utils';
+import { Heart } from 'lucide-react';
+import FormContainer from '../form/form-container';
 
 type FavoriteToggleButtonProps = {
+  productId: string;
   className?: string;
 };
 
-export default function FavoriteToggleButton({
+export default async function FavoriteToggleButton({
+  productId,
   className
 }: FavoriteToggleButtonProps) {
+  const favoriteId = await getFavoriteId(productId);
+
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className={cn('absolute rounded-full backdrop-blur-sm btn', className)}
+    <FormContainer
+      action={toggleFavoriteProductAction.bind(null, {
+        productId,
+        favoriteId
+      })}
     >
-      <Heart className="w-5 h-5 stroke-red-500" />
-    </Button>
+      <ActionButton
+        icon={
+          <Heart
+            className={cn(
+              'stroke-red-500',
+              favoriteId ? 'fill-red-500' : 'fill-none'
+            )}
+          />
+        }
+        className={cn('absolute rounded-full backdrop-blur-sm', className)}
+      />
+    </FormContainer>
   );
 }

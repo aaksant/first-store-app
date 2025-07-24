@@ -20,9 +20,9 @@ export default function ProductListItem({
   company
 }: ProductListItemProps) {
   return (
-    <Link href={`/products/${id}`}>
-      <Card className="rounded-sm py-0 border shadow-none">
-        <CardContent className="flex gap-x-6 p-4 relative">
+    <Card className="rounded-sm py-0 border shadow-none">
+      <Link href={`/products/${id}`}>
+        <CardContent className="flex gap-x-6 p-4">
           <div className="relative w-28 h-28">
             <Image
               src={image}
@@ -43,9 +43,11 @@ export default function ProductListItem({
             )}
           </div>
           <h3 className="font-semibold ml-auto">{formatCurrency(price)}</h3>
-          <FavoriteToggleButton className="right-3 bottom-3" />
         </CardContent>
-      </Card>
-    </Link>
+      </Link>
+      <div className="relative">
+        <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
+      </div>
+    </Card>
   );
 }

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+// import ActionButton from '@/components/form/action-button';
 
 export default async function SingleProductPage({
   params
@@ -48,7 +49,7 @@ export default async function SingleProductPage({
             </h3>
             <AddToCartButton />
           </div>
-          <FavoriteToggleButton className="right-3 top-0" />
+          <FavoriteToggleButton productId={id} className="right-3 top-0" />
         </div>
       </div>
     </section>

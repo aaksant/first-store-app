@@ -22,7 +22,7 @@ export default function ProductCard({
   return (
     <Card className="relative w-full max-w-sm overflow-hidden shadow-sm py-0">
       <Link href={`/products/${id}`} className="block">
-        <div className="relative overflow-hidden">
+        <div className="overflow-hidden">
           <Image
             src={image}
             alt={name}
@@ -39,9 +39,11 @@ export default function ProductCard({
           <h3 className="text-sm font-semibold text-muted-foreground">
             {formatCurrency(price)}
           </h3>
-          <FavoriteToggleButton className="right-3 bottom-3" />
         </CardContent>
       </Link>
+      <div className="relative">
+        <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
+      </div>
     </Card>
   );
 }
