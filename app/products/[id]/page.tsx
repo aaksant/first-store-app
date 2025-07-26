@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-// import ActionButton from '@/components/form/action-button';
+import ShareButton from '@/components/single-product/share-button';
 
 export default async function SingleProductPage({
   params
@@ -33,7 +33,7 @@ export default async function SingleProductPage({
             className="w-full rounded-sm object-cover"
           />
         </div>
-        <div className="relative">
+        {/* <div className="relative">
           <Badge variant="outline" className="w-fit mb-2">
             {company}
           </Badge>
@@ -50,6 +50,34 @@ export default async function SingleProductPage({
             <AddToCartButton />
           </div>
           <FavoriteToggleButton productId={id} className="right-3 top-0" />
+        </div> */}
+        <div className="relative">
+          <div>
+            <Badge variant="outline" className="w-fit mb-2">
+              {company}
+            </Badge>
+            <h3 className="font-bold text-xl tracking-tight capitalize">
+              {name}
+            </h3>
+            <ProductRating />
+            <p className="text-muted-foreground text-sm my-6">{description}</p>
+            <Separator />
+            <div className="flex gap-x-4 mt-6 items-center justify-end">
+              <h3 className="font-bold tracking-tight">
+                {formatCurrency(price)}
+              </h3>
+              <AddToCartButton />
+            </div>
+          </div>
+          <div className="">
+            <FavoriteToggleButton productId={id} className="right-3 top-0" />
+            <ShareButton
+              className="absolute right-13 top-0"
+              productId={id}
+              name={name}
+              formattedPrice={formatCurrency(price)}
+            />
+          </div>
         </div>
       </div>
     </section>
