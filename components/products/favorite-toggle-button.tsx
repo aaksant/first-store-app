@@ -3,6 +3,8 @@ import { getFavoriteId, toggleFavoriteProductAction } from '@/db/actions';
 import { cn } from '@/lib/utils';
 import { Heart } from 'lucide-react';
 import FormContainer from '../form/form-container';
+import { auth } from '@clerk/nextjs/server';
+import ProtectedFavoriteToggleButton from './protected-favorite-toggle-button';
 
 type FavoriteToggleButtonProps = {
   productId: string;
@@ -13,6 +15,9 @@ export default async function FavoriteToggleButton({
   productId,
   className
 }: FavoriteToggleButtonProps) {
+  const { userId } = await auth();
+  if (!userId) return <ProtectedFavoriteToggleButton className={className} />;
+
   const favoriteId = await getFavoriteId(productId);
 
   return (
