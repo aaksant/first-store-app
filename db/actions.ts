@@ -213,3 +213,11 @@ export async function toggleFavoriteProductAction(prevState: {
     return getActionErrorMessage(error);
   }
 }
+
+export async function getFavoriteProducts() {
+  const user = await getAuthUser();
+  return await prisma.favoriteProduct.findMany({
+    where: { clerkId: user.id },
+    include: { product: true }
+  });
+}
