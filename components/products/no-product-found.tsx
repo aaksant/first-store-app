@@ -1,6 +1,10 @@
 import Image from 'next/image';
 
-export default function NoProductFound() {
+type NoProductFoundProps = { text?: string };
+
+export default function NoProductFound({
+  text = 'Product not found'
+}: NoProductFoundProps) {
   return (
     <div className="h-full grid place-items-center">
       <Image
@@ -10,7 +14,7 @@ export default function NoProductFound() {
         height={200}
       />
       <h3 className="mt-4 text-muted-foreground font-semibold tracking-tight">
-        Product not found
+        {text}
       </h3>
     </div>
   );
