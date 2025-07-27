@@ -1,4 +1,7 @@
+import LoadingProductCard from '@/components/globals/loading-product-card';
+import SectionTitle from '@/components/globals/section-title';
 import ProductsContainer from '@/components/products/products-container';
+import { Suspense } from 'react';
 
 export default async function ProductsPage({
   searchParams
@@ -10,7 +13,10 @@ export default async function ProductsPage({
 
   return (
     <>
-      <ProductsContainer layout={layout} search={search} />
+      <SectionTitle text="Our Products" />
+      <Suspense fallback={<LoadingProductCard />}>
+        <ProductsContainer layout={layout} search={search} />
+      </Suspense>
     </>
   );
 }
