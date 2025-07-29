@@ -40,6 +40,7 @@ model FavoriteProduct {
 
 model Review {
   id                    String   @id @default(uuid())
+  clerkId               String
   productId             String
   rating                Int
   comment               String
