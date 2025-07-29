@@ -3,6 +3,7 @@
 import {
   imageSchema,
   productSchema,
+  reviewSchema,
   validateWithZodSchema
 } from '@/db/schemas';
 import prisma from './db';
@@ -220,4 +221,25 @@ export async function getFavoriteProducts() {
     where: { clerkId: user.id },
     include: { product: true }
   });
+}
+
+export async function createReviewAction(
+  prevState: unknown,
+  formData: FormData
+): Promise<{ status: ActionStatus; message: string }> {
+  const user = await getAuthUser();
+
+  try {
+    const inputData = Object.fromEntries(formData);
+    const validatedInputData = validateWithZodSchema(reviewSchema, inputData);
+
+    await prisma.review.create({
+      data: { ...validatedInputData, clerkId: user.id }
+    });
+
+    revalidatePath(`/products/${validatedInputData.productId}`);
+    return getActionSuccessMessage('Review created');
+  } catch (error) {
+    return getActionErrorMessage(error);
+  }
 }
