@@ -21,7 +21,7 @@ export default function CreateProductPage() {
             <PriceInput />
             <ImageInput />
           </div>
-          <TextareaInput />
+          <TextareaInput name="description" />
           <CheckboxInput name="isFeatured" label="Featured" />
           <FormButton text="Create" className="mt-8" />
         </FormContainer>
