@@ -36,6 +36,27 @@ export const imageSchema = z.object({
   image: validateImageFile()
 });
 
+export const reviewSchema = z.object({
+  authorName: z
+    .string()
+    .refine((input) => input.length !== 0, { message: 'Name is required' }),
+  comment: z
+    .string()
+    .refine((input) => input.length >= 5 && input.length <= 1000, {
+      message: 'Review comment must be between 5 and 1000 characters'
+    }),
+  productId: z.string().refine((input) => input.length !== 0, {
+    message: 'Product ID cannot be empty'
+  }),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1, { message: 'Rating must be at least 1' }),
+  authorProfileImageUrl: z.string().refine((input) => input.length !== 0, {
+    message: 'Your profile URL cannot be empty'
+  })
+});
+
 export function validateWithZodSchema<T>(
   schema: ZodType<T>,
   inputData: unknown
