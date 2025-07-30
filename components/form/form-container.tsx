@@ -7,11 +7,13 @@ import { toast } from 'sonner';
 type FormContainerProps = {
   action: ActionFunction;
   children?: ReactNode;
+  className?: string;
 };
 
 export default function FormContainer({
   action,
-  children
+  children,
+  className
 }: FormContainerProps) {
   const [state, formAction] = useActionState(action, {
     status: 'idle',
@@ -27,5 +29,9 @@ export default function FormContainer({
     }
   }, [state]);
 
-  return <form action={formAction}>{children}</form>;
+  return (
+    <form action={formAction} className={className}>
+      {children}
+    </form>
+  );
 }
