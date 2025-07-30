@@ -28,7 +28,7 @@ export default function ProductCard({
             alt={name}
             width={300}
             height={300}
-            className="object-cover w-full h-64"
+            className="object-fill w-full h-64"
           />
         </div>
         <CardContent className="p-4">
@@ -41,9 +41,7 @@ export default function ProductCard({
           </h3>
         </CardContent>
       </Link>
-      <div className="relative">
-        <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
-      </div>
+      <FavoriteToggleButton productId={id} className="right-3 bottom-2" />
     </Card>
   );
 }
