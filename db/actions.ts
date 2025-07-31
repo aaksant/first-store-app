@@ -243,3 +243,10 @@ export async function createReviewAction(
     return getActionErrorMessage(error);
   }
 }
+
+export async function getReviews(productId: string) {
+  return await prisma.review.findMany({
+    where: { productId },
+    orderBy: { createdAt: 'desc' }
+  });
+}
