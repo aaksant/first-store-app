@@ -22,7 +22,7 @@ export default function ProductCard({
   return (
     <Card className="relative w-full max-w-sm overflow-hidden shadow-sm py-0">
       <Link href={`/products/${id}`} className="block">
-        <div className="overflow-hidden">
+        <div className="overflow-hidden px-4 py-8">
           <Image
             src={image}
             alt={name}
