@@ -1,35 +1,32 @@
 import { type Review } from '@prisma/client';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '../ui/card';
+import { Card, CardContent, CardHeader } from '../ui/card';
 import { Avatar } from '../ui/avatar';
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { formatDate } from '@/utils/format';
+import StarRating from './star-rating';
 
 export default function ReviewCard({ review }: { review: Review }) {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex items-center justify-between">
         <div className="flex items-center gap-x-3">
           <Avatar>
             <AvatarImage src={review.authorProfileImageUrl} />
             <AvatarFallback>{review.authorName.charAt(0)}</AvatarFallback>
           </Avatar>
-          <div>
-            <CardTitle className="tracking-tight md:text-base">
+          <div className="space-y-1/3">
+            <h4 className="font-semibold tracking-tight md:text-base">
               {review.authorName}
-            </CardTitle>
-            <CardDescription className="text-xs md:text-sm">
-              {review.createdAt.toLocaleDateString()}
-            </CardDescription>
+            </h4>
+            <p className="text-sm text-muted-foreground">
+              {formatDate(review.createdAt)}
+            </p>
           </div>
         </div>
+        <StarRating rating={review.rating} />
       </CardHeader>
       <CardContent>
-        <p className="text-sm md:text-base">{review.comment}</p>
+        <p className="text-sm md:text-base">{review.comment}</p>{' '}
       </CardContent>
     </Card>
   );
