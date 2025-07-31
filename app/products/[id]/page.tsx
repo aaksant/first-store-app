@@ -70,7 +70,9 @@ export default async function SingleProductPage({
         </div>
       </section>
       <section className="mt-12">
-        <h1 className="text-2xl font-bold tracking-tight my-6">All reviews</h1>
+        <h1 className="text-2xl font-bold tracking-tight my-6">
+          All reviews ({reviews.length})
+        </h1>
         <ReviewContainer productId={id} reviews={reviews} />
       </section>
     </>
