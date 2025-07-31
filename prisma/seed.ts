@@ -88,7 +88,7 @@ async function main() {
   await prisma.product.deleteMany({});
 
   await seedProductModel();
-  await seedReviewModel(50);
+  await seedReviewModel(200);
 }
 
 main()
