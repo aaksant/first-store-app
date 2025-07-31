@@ -2,10 +2,18 @@
 
 import { useState } from 'react';
 import ReviewForm from './review-form';
+import { Review } from '@prisma/client';
+import ReviewList from './review-list';
 
-type ReviewContainerProps = { productId: string };
+type ReviewContainerProps = {
+  productId: string;
+  reviews: Review[];
+};
 
-export default function ReviewContainer({ productId }: ReviewContainerProps) {
+export default function ReviewContainer({
+  productId,
+  reviews
+}: ReviewContainerProps) {
   const [isFormShown, setIsFormShown] = useState(false);
 
   return (
@@ -15,6 +23,7 @@ export default function ReviewContainer({ productId }: ReviewContainerProps) {
         isFormShown={isFormShown}
         onFormShown={() => setIsFormShown(!isFormShown)}
       />
+      <ReviewList reviews={reviews} />
     </>
   );
 }
