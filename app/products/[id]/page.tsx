@@ -2,14 +2,13 @@ import FavoriteToggleButton from '@/components/products/favorite-toggle-button';
 import AddToCartButton from '@/components/single-product/add-to-cart-button';
 import Breadcrumbs from '@/components/single-product/breadcrumbs';
 import ProductRating from '@/components/single-product/product-rating';
-import { getSingleProduct } from '@/db/actions';
+import { getReviews, getSingleProduct } from '@/db/actions';
 import { formatCurrency } from '@/utils/format';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import ShareButton from '@/components/single-product/share-button';
-import ReviewForm from '@/components/reviews/review-form';
 import ReviewContainer from '@/components/reviews/review-container';
 
 export default async function SingleProductPage({
@@ -20,6 +19,8 @@ export default async function SingleProductPage({
   const product = await getSingleProduct((await params).id);
   if (!product) redirect('/');
   const { id, name, company, description, image, price } = product;
+
+  const reviews = await getReviews(id);
 
   return (
     <>
@@ -56,7 +57,7 @@ export default async function SingleProductPage({
                 <AddToCartButton />
               </div>
             </div>
-            <div className="">
+            <div>
               <FavoriteToggleButton productId={id} className="right-3 top-0" />
               <ShareButton
                 className="absolute right-13 top-0"
@@ -70,8 +71,7 @@ export default async function SingleProductPage({
       </section>
       <section className="mt-12">
         <h1 className="text-2xl font-bold tracking-tight my-6">All reviews</h1>
-        {/* <ReviewForm productId={id} /> */}
-        <ReviewContainer productId={id} />
+        <ReviewContainer productId={id} reviews={reviews} />
       </section>
     </>
   );
