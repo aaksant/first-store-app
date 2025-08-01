@@ -47,5 +47,5 @@ model Review {
   authorName            String
   authorProfileImageUrl String
   createdAt             DateTime @default(now())
-  product               Product  @relation(fields: [productId], references: [id])
+  product               Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
