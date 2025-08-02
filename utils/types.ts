@@ -13,3 +13,12 @@ export type ActionFunction = (
   prevState: unknown,
   formData: FormData
 ) => Promise<{ status: ActionStatus; message: string }>;
+
+export type PaginationResult<T> = {
+  data: T[];
+  count: number;
+  totalPages: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+};
