@@ -150,7 +150,7 @@ export async function updateProductAction(
   }
 }
 
-export async function getPaginatedAdminProducts(
+export async function getAdminProducts(
   page: number = 1,
   limit: number = 10
 ): Promise<PaginationResult<Product>> {
