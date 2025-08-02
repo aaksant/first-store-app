@@ -1,5 +1,5 @@
 import FormContainer from '../form/form-container';
-import { deleteProductAction, getPaginatedAdminProducts } from '@/db/actions';
+import { deleteProductAction, getAdminProducts } from '@/db/actions';
 import ActionButton from '../form/action-button';
 import EmptyList from '../globals/empty-list';
 import {
@@ -54,7 +54,7 @@ export default async function AdminProductsTable({
     currentPage,
     hasNextPage,
     hasPreviousPage
-  } = await getPaginatedAdminProducts(page, 10);
+  } = await getAdminProducts(page, 10);
 
   if (adminProducts.length === 0 || count === 0)
     return <EmptyList text="You have no product yet." />;
