@@ -14,9 +14,10 @@ import {
   getActionSuccessMessage
 } from './helpers';
 import { deleteImage, uploadImage } from './supabase';
-import { ActionStatus } from '@/utils/types';
+import { ActionStatus, PaginationResult } from '@/utils/types';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { Product } from '@prisma/client';
 
 export async function getFeaturedProducts() {
   return await prisma.product.findMany({
@@ -149,13 +150,35 @@ export async function updateProductAction(
   }
 }
 
-export async function getAdminProducts() {
+export async function getPaginatedAdminProducts(
+  page: number = 1,
+  limit: number = 10
+): Promise<PaginationResult<Product>> {
   await getAdminUser();
-  return await prisma.product.findMany({
-    orderBy: {
-      createdAt: 'desc'
-    }
-  });
+
+  const skip = (page - 1) * limit;
+
+  const [data, count] = await Promise.all([
+    prisma.product.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    }),
+    prisma.product.count()
+  ]);
+
+  const totalPages = Math.ceil(count / limit);
+
+  return {
+    data,
+    count,
+    totalPages,
+    currentPage: page,
+    hasNextPage: page < totalPages,
+    hasPreviousPage: page > 1
+  };
 }
 
 export async function getAdminProductDetail(id: string) {
