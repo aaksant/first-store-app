@@ -273,3 +273,11 @@ export async function getProductReviews(productId: string) {
     orderBy: { createdAt: 'desc' }
   });
 }
+
+export async function getReviewedProducts() {
+  const user = await getAuthUser();
+  return await prisma.review.findMany({
+    where: { clerkId: user.id },
+    include: { product: true }
+  });
+}
