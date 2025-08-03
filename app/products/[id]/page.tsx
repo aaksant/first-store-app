@@ -2,7 +2,7 @@ import FavoriteToggleButton from '@/components/products/favorite-toggle-button';
 import AddToCartButton from '@/components/single-product/add-to-cart-button';
 import Breadcrumbs from '@/components/single-product/breadcrumbs';
 import ProductRating from '@/components/single-product/product-rating';
-import { getReviews, getSingleProduct } from '@/db/actions';
+import { getProductReviews, getSingleProduct } from '@/db/actions';
 import { formatCurrency } from '@/utils/format';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
@@ -20,7 +20,7 @@ export default async function SingleProductPage({
   if (!product) redirect('/');
   const { id, name, company, description, image, price } = product;
 
-  const reviews = await getReviews(id);
+  const reviews = await getProductReviews(id);
 
   return (
     <>
@@ -42,11 +42,11 @@ export default async function SingleProductPage({
               <Badge variant="outline" className="w-fit mb-2">
                 {company}
               </Badge>
-              <h3 className="font-bold text-xl tracking-tight capitalize">
+              <h3 className="font-bold text-2xl tracking-tight capitalize">
                 {name}
               </h3>
-              <ProductRating />
-              <p className="text-muted-foreground text-sm my-6">
+              <ProductRating reviews={reviews} />
+              <p className="text-muted-foreground text-sm my-6 leading-relaxed">
                 {description}
               </p>
               <Separator />
