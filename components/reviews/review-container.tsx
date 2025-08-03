@@ -8,11 +8,13 @@ import ReviewList from './review-list';
 type ReviewContainerProps = {
   productId: string;
   reviews: Review[];
+  isAlreadyReviewed: Review | null;
 };
 
 export default function ReviewContainer({
   productId,
-  reviews
+  reviews,
+  isAlreadyReviewed
 }: ReviewContainerProps) {
   const [isFormShown, setIsFormShown] = useState(false);
 
@@ -22,6 +24,7 @@ export default function ReviewContainer({
         productId={productId}
         isFormShown={isFormShown}
         onFormShown={() => setIsFormShown(!isFormShown)}
+        isAlreadyReviewed={isAlreadyReviewed}
       />
       <ReviewList reviews={reviews} />
     </>

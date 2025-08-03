@@ -2,7 +2,11 @@ import FavoriteToggleButton from '@/components/products/favorite-toggle-button';
 import AddToCartButton from '@/components/single-product/add-to-cart-button';
 import Breadcrumbs from '@/components/single-product/breadcrumbs';
 import ProductRating from '@/components/single-product/product-rating';
-import { getProductReviews, getSingleProduct } from '@/db/actions';
+import {
+  getProductReviews,
+  getSingleProduct,
+  hasUserReviewedProduct
+} from '@/db/actions';
 import { formatCurrency } from '@/utils/format';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
@@ -10,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import ShareButton from '@/components/single-product/share-button';
 import ReviewContainer from '@/components/reviews/review-container';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function SingleProductPage({
   params
@@ -21,6 +26,9 @@ export default async function SingleProductPage({
   const { id, name, company, description, image, price } = product;
 
   const reviews = await getProductReviews(id);
+  const { userId } = await auth();
+  const isAlreadyReviewed =
+    userId && (await hasUserReviewedProduct(userId, id));
 
   return (
     <>
@@ -73,7 +81,12 @@ export default async function SingleProductPage({
         <h1 className="text-2xl font-bold tracking-tight my-6">
           All reviews ({reviews.length})
         </h1>
-        <ReviewContainer productId={id} reviews={reviews} />
+        {/* <ReviewContainer productId={id} reviews={reviews} /> */}
+        <ReviewContainer
+          productId={id}
+          reviews={reviews}
+          isAlreadyReviewed={isAlreadyReviewed}
+        />
       </section>
     </>
   );

@@ -7,16 +7,19 @@ import { useUser } from '@clerk/nextjs';
 import { faker } from '@faker-js/faker';
 import RatingInput from './rating-input';
 import { useState } from 'react';
+import { Review } from '@prisma/client';
 
 type ReviewFormProps = {
   productId: string;
   isFormShown: boolean;
+  isAlreadyReviewed: Review | null;
   onFormShown: () => void;
 };
 
 export default function ReviewForm({
   productId,
   isFormShown,
+  isAlreadyReviewed,
   onFormShown
 }: ReviewFormProps) {
   const { user } = useUser();
@@ -27,55 +30,68 @@ export default function ReviewForm({
 
   return (
     <>
-      <div className="text-center">
-        <Button
-          onClick={onFormShown}
-          variant={isFormShown ? 'secondary' : 'outline'}
-          className="btn mb-6"
-        >
-          {isFormShown ? 'Cancel' : 'Write a review'}
-        </Button>
-      </div>
-      {isFormShown && (
-        <div className="border rounded-md py-4 px-6">
-          <h1 className="text-xl font-semibold tracking-tight mb-8">
-            Write your review
-          </h1>
-          <div>
-            <FormContainer action={createReviewAction} className="space-y-6">
-              <input
-                type="hidden"
-                name="productId"
-                id="productId"
-                value={productId}
-              />
-              <input
-                type="hidden"
-                name="authorName"
-                id="authorName"
-                value={user?.firstName || randomUserFirstName}
-              />
-              <input
-                type="hidden"
-                name="authorProfileImageUrl"
-                id="authorProfileImageUrl"
-                value={user?.imageUrl || randomUserProfileImageUrl}
-              />
-              <RatingInput
-                name="rating"
-                value={star}
-                onRatingChange={(rating) => {
-                  setStar(rating);
-                }}
-              />
-              <TextareaInput
-                name="comment"
-                placeholder="What is your experience"
-              />
-              <FormButton text="Submit" className="mt-8 w-full" />
-            </FormContainer>
+      {isAlreadyReviewed ? (
+        <h3 className="text-muted-foreground font-semibold tracking-tight text-center text-xl mb-4">
+          You already reviewed this product
+        </h3>
+      ) : (
+        <section>
+          <div className="text-center">
+            <Button
+              onClick={onFormShown}
+              variant={isFormShown ? 'secondary' : 'outline'}
+              className="btn mb-6"
+            >
+              {isFormShown ? 'Cancel' : 'Write a review'}
+            </Button>
           </div>
-        </div>
+          <div>
+            {isFormShown && (
+              <div className="border rounded-md py-4 px-6">
+                <h1 className="text-xl font-semibold tracking-tight mb-8">
+                  Write your review
+                </h1>
+                <div>
+                  <FormContainer
+                    action={createReviewAction}
+                    className="space-y-6"
+                  >
+                    <input
+                      type="hidden"
+                      name="productId"
+                      id="productId"
+                      value={productId}
+                    />
+                    <input
+                      type="hidden"
+                      name="authorName"
+                      id="authorName"
+                      value={user?.firstName || randomUserFirstName}
+                    />
+                    <input
+                      type="hidden"
+                      name="authorProfileImageUrl"
+                      id="authorProfileImageUrl"
+                      value={user?.imageUrl || randomUserProfileImageUrl}
+                    />
+                    <RatingInput
+                      name="rating"
+                      value={star}
+                      onRatingChange={(rating) => {
+                        setStar(rating);
+                      }}
+                    />
+                    <TextareaInput
+                      name="comment"
+                      placeholder="What is your experience"
+                    />
+                    <FormButton text="Submit" className="mt-8 w-full" />
+                  </FormContainer>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
       )}
     </>
   );
