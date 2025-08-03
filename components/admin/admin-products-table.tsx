@@ -98,7 +98,7 @@ export default async function AdminProductsTable({
               </TableRow>
             ))}
           </TableBody>
-          <TableCaption>
+          <TableCaption className="text-foreground">
             <PaginationContainer
               currentPage={currentPage}
               totalPages={totalPages}
