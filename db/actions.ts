@@ -267,7 +267,7 @@ export async function createReviewAction(
   }
 }
 
-export async function getReviews(productId: string) {
+export async function getProductReviews(productId: string) {
   return await prisma.review.findMany({
     where: { productId },
     orderBy: { createdAt: 'desc' }
