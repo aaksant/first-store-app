@@ -7,10 +7,7 @@ type ReviewListProps = { reviews: Review[] };
 export default function ReviewList({ reviews }: ReviewListProps) {
   if (reviews.length === 0) {
     return (
-      <EmptyList
-        text="No reviews yet. Be the first one to review this product!"
-        className="text-center text-muted-foreground tracking-tight font-semibold"
-      />
+      <EmptyList text="No reviews yet. Be the first one to review this product!" />
     );
   }
 
