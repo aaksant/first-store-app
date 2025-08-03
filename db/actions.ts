@@ -274,6 +274,18 @@ export async function getProductReviews(productId: string) {
   });
 }
 
+export async function hasUserReviewedProduct(
+  userId: string,
+  productId: string
+) {
+  return await prisma.review.findFirst({
+    where: {
+      clerkId: userId,
+      productId
+    }
+  });
+}
+
 export async function getReviewedProducts() {
   const user = await getAuthUser();
   return await prisma.review.findMany({
