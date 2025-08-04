@@ -27,7 +27,7 @@ export default async function SingleProductPage({
 
   const reviews = await getProductReviews(id);
   const { userId } = await auth();
-  console.log(userId);
+
   const isAlreadyReviewed = userId
     ? await hasUserReviewedProduct(userId, id)
     : null;
