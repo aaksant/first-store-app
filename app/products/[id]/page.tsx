@@ -27,9 +27,10 @@ export default async function SingleProductPage({
 
   const reviews = await getProductReviews(id);
   const { userId } = await auth();
-  const isAlreadyReviewed =
-    userId && (await hasUserReviewedProduct(userId, id));
-
+  console.log(userId);
+  const isAlreadyReviewed = userId
+    ? await hasUserReviewedProduct(userId, id)
+    : null;
   return (
     <>
       <section>
@@ -81,7 +82,6 @@ export default async function SingleProductPage({
         <h1 className="text-2xl font-bold tracking-tight my-6">
           All reviews ({reviews.length})
         </h1>
-        {/* <ReviewContainer productId={id} reviews={reviews} /> */}
         <ReviewContainer
           productId={id}
           reviews={reviews}
