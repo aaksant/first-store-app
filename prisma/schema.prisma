@@ -27,6 +27,7 @@ model Product {
   clerkId          String
   favoriteProducts FavoriteProduct[]
   reviews          Review[]
+  CartItem         CartItem[]
 }
 
 model FavoriteProduct {
@@ -48,4 +49,29 @@ model Review {
   authorProfileImageUrl String
   createdAt             DateTime @default(now())
   product               Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Cart {
+  id          String     @id @default(uuid())
+  clerkId     String
+  itemsInCart Int        @default(0)
+  cartTotal   Int        @default(0)
+  shipping    Int        @default(5)
+  tax         Int        @default(0)
+  taxRate     Float      @default(0.1)
+  orderTotal  Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  cartItems   CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  productId String
+  cartId    String
+  amount    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
