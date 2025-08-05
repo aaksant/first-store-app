@@ -7,10 +7,11 @@ type ProductRatingProps = {
 
 export default function ProductRating({ reviews }: ProductRatingProps) {
   const reviewsLength = reviews.length;
-  const averageRating =
+  const averageRating = (
     reviews
       .map((review) => review.rating)
-      .reduce((prev, current) => prev + current, 0) / reviewsLength;
+      .reduce((prev, current) => prev + current, 0) / reviewsLength
+  ).toFixed(1);
 
   return (
     <p className="flex gap-x-2 items-center text-sm mt-1">
