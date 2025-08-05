@@ -18,6 +18,7 @@ import { ActionStatus, PaginationResult } from '@/utils/types';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Product } from '@prisma/client';
+import { auth } from '@clerk/nextjs/server';
 
 export async function getFeaturedProducts() {
   return await prisma.product.findMany({
@@ -292,4 +293,14 @@ export async function getReviewedProducts() {
     where: { clerkId: user.id },
     include: { product: true }
   });
+}
+
+export async function getItemsInCart() {
+  const { userId } = await auth();
+  const cart = await prisma.cart.findFirst({
+    where: { clerkId: userId ?? '' },
+    select: { itemsInCart: true }
+  });
+
+  return cart?.itemsInCart || 0;
 }
