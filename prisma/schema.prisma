@@ -27,7 +27,7 @@ model Product {
   clerkId          String
   favoriteProducts FavoriteProduct[]
   reviews          Review[]
-  CartItem         CartItem[]
+  cartItems        CartItem[]
 }
 
 model FavoriteProduct {
