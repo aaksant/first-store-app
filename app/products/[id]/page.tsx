@@ -33,52 +33,67 @@ export default async function SingleProductPage({
     : null;
   return (
     <>
-      <section>
-        <Breadcrumbs name={name} id={id} />
-        <div className="grid gap-12 mt-8 md:grid-cols-2">
-          <div className="h-full relative">
-            <Image
-              src={image}
-              alt={name}
-              fill
-              priority
-              sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw,33vw"
-              className="w-full rounded-sm object-cover"
-            />
+      {/* breadcrumbs */}
+      <Breadcrumbs name={name} id={id} />
+      <div className="mt-8 grid gap-8 lg:grid-cols-5 lg:gap-12">
+        {/* image */}
+        <div className="w-5/6 p-6 lg:w-full lg:col-span-2">
+          <Image
+            src={image}
+            alt={name}
+            width={1000}
+            height={1333}
+            className="w-full h-auto"
+            sizes="(max-width: 1024px) 83vw, 40vw"
+          />
+        </div>
+
+        {/* detail */}
+        <div className="space-y-6 lg:col-span-3">
+          <div className="space-y-2">
+            <h3 className="text-xl font-bold capitalize md:text-2xl lg:text-3xl">
+              {name}
+            </h3>
+            <Badge variant="outline" className="w-fit">
+              {company}
+            </Badge>
+            <ProductRating reviews={reviews} />
           </div>
-          <div className="relative">
-            <div>
-              <Badge variant="outline" className="w-fit mb-2">
-                {company}
-              </Badge>
-              <h3 className="font-bold text-2xl tracking-tight capitalize">
-                {name}
-              </h3>
-              <ProductRating reviews={reviews} />
-              <p className="text-muted-foreground text-sm my-6 leading-relaxed">
-                {description}
-              </p>
-              <Separator />
-              <div className="flex gap-x-4 mt-6 items-center justify-end">
-                <h3 className="font-bold tracking-tight">
-                  {formatCurrency(price)}
-                </h3>
-                <AddToCartButton />
-              </div>
-            </div>
-            <div>
-              <FavoriteToggleButton productId={id} className="right-3 top-0" />
-              <ShareButton
-                className="absolute right-13 top-0"
-                productId={id}
-                name={name}
-                formattedPrice={formatCurrency(price)}
-              />
-            </div>
+          <div>
+            <h3 className="text-lg text-right text-primary font-bold tracking-tight">
+              {formatCurrency(price)}
+            </h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mt-2">
+              {description}
+            </p>
+          </div>
+
+          {/* quantity component here */}
+
+          {/* subtotal */}
+          <Separator />
+          <div className="w-full bg-accent p-4 rounded-md flex justify-between items-center">
+            <span className="text-sm font-semibold">Subtotal:</span>
+            <span className="font-bold tracking-tight">
+              {formatCurrency(price)}
+            </span>
+          </div>
+
+          {/* add to cart and favorite */}
+          <div className="flex gap-2">
+            <AddToCartButton className="flex-1" />
+            <ShareButton
+              productId={id}
+              name={name}
+              formattedPrice={formatCurrency(price)}
+            />
+            <FavoriteToggleButton productId={id} as="inline" />
           </div>
         </div>
-      </section>
-      <section className="mt-12">
+      </div>
+
+      {/* reviews */}
+      <div className="mt-12">
         <h1 className="text-2xl font-bold tracking-tight my-6">
           All reviews ({reviews.length})
         </h1>
@@ -87,7 +102,7 @@ export default async function SingleProductPage({
           reviews={reviews}
           isAlreadyReviewed={isAlreadyReviewed}
         />
-      </section>
+      </div>
     </>
   );
 }
