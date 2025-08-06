@@ -36,7 +36,7 @@ export default function ShareButton({
         <Button
           variant="ghost"
           size="icon"
-          className={cn('btn rounded-full backdrop-blur-sm', className)}
+          className={cn('btn rounded-md py-2 px-6 border', className)}
         >
           <Share2 />
         </Button>

@@ -19,9 +19,7 @@ export default function ProductRating({ reviews }: ProductRatingProps) {
         <Star size={15} className="text-yellow-400 fill-yellow-400" />
         {averageRating}
       </span>
-      <span className="tracking-tight font-semibold">
-        ({reviewsLength} reviews)
-      </span>
+      <span className="text-primary">[{reviewsLength} reviews]</span>
     </p>
   );
 }
