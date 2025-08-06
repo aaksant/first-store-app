@@ -12,7 +12,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-8 mt-8">
+    <div className="grid gap-8 mt-8 lg:grid-cols-2">
       {reviews.map((review) => {
         return <ReviewCard key={review.id} review={review} />;
       })}

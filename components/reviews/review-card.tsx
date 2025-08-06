@@ -5,7 +5,11 @@ import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { formatDate } from '@/utils/format';
 import StarRating from './star-rating';
 
-export default function ReviewCard({ review }: { review: Review }) {
+type ReviewCardProps = {
+  review: Review;
+};
+
+export default function ReviewCard({ review }: ReviewCardProps) {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
@@ -26,7 +30,7 @@ export default function ReviewCard({ review }: { review: Review }) {
         <StarRating rating={review.rating} />
       </CardHeader>
       <CardContent>
-        <p className="text-sm md:text-base">{review.comment}</p>{' '}
+        <p className="text-sm md:text-base">{review.comment}</p>
       </CardContent>
     </Card>
   );
