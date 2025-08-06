@@ -46,7 +46,11 @@ export default function ProductListItem({
         </CardContent>
       </Link>
       <div className="relative">
-        <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
+        <FavoriteToggleButton
+          productId={id}
+          as="overlay"
+          className="right-3 bottom-3"
+        />
       </div>
     </Card>
   );

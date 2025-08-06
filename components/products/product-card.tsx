@@ -41,7 +41,11 @@ export default function ProductCard({
           </h3>
         </CardContent>
       </Link>
-      <FavoriteToggleButton productId={id} className="right-3 bottom-2" />
+      <FavoriteToggleButton
+        productId={id}
+        as="overlay"
+        className="right-3 bottom-2"
+      />
     </Card>
   );
 }
