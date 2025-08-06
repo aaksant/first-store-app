@@ -9,6 +9,14 @@
 
 2. Don't reset input after submitting using `useActionState`. Watch [this video](https://www.youtube.com/watch?v=KhO4VjaYSXU).
 
-3. /products/[id] UI looks ugly. Fix it after review functionality done.
+3. /products/[id] UI looks ugly. Fix it after review functionality done. (DONE)
 
 4. Filter in admin/products table.
+
+5. Seed more reviews.
+
+## Ideas
+
+1. Seed number of items sold.
+
+2. Words calculator in comment form.
