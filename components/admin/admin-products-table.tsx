@@ -16,6 +16,10 @@ import { formatCurrency } from '@/utils/format';
 import { Pen, Trash2 } from 'lucide-react';
 import PaginationContainer from '../globals/pagination-container';
 
+type AdminProductsTableProps = {
+  searchParams: Promise<{ page?: string }>;
+};
+
 function UpdateActionButton({ id }: { id: string }) {
   return (
     <Link href={`/admin/products/${id}/edit`}>
@@ -41,12 +45,8 @@ function DeleteActionButton({ id }: { id: string }) {
 
 export default async function AdminProductsTable({
   searchParams
-}: {
-  searchParams: {
-    page?: string;
-  };
-}) {
-  const page = parseInt(searchParams.page || '1');
+}: AdminProductsTableProps) {
+  const page = (await searchParams).page || '1';
   const {
     data: adminProducts,
     count,
@@ -54,7 +54,7 @@ export default async function AdminProductsTable({
     currentPage,
     hasNextPage,
     hasPreviousPage
-  } = await getAdminProducts(page, 10);
+  } = await getAdminProducts(parseInt(page), 10);
 
   if (adminProducts.length === 0 || count === 0)
     return <EmptyList text="You have no product yet." />;

@@ -3,12 +3,10 @@ import { Suspense } from 'react';
 import Loading from './loading';
 
 type AdminProductsPageProps = {
-  searchParams: {
-    page?: string;
-  };
+  searchParams: Promise<{ page?: string }>;
 };
 
-export default function AdminProductsPage({
+export default async function AdminProductsPage({
   searchParams
 }: AdminProductsPageProps) {
   return (
