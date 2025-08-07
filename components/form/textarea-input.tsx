@@ -1,17 +1,25 @@
 import { Textarea } from '../ui/textarea';
 import FormInput from './form-input';
 
-export default function TextareaInput({
-  defaultValue
-}: {
+type TextareaInputProps = {
+  name: string;
   defaultValue?: string;
-}) {
+  placeholder?: string;
+  label?: string;
+};
+
+export default function TextareaInput({
+  defaultValue,
+  placeholder = 'Enter your product description',
+  name,
+  label
+}: TextareaInputProps) {
   return (
     <FormInput
-      name="description"
+      name={name}
       type="text"
-      label="description"
-      placeholder="Enter your product description"
+      label={label || name}
+      placeholder={placeholder}
       as={Textarea}
       defaultValue={defaultValue}
     />

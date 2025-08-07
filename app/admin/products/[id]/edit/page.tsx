@@ -41,7 +41,7 @@ export default async function EditPage({
             <PriceInput defaultValue={price} />
             <ImageInput defaultImage={image} />
           </div>
-          <TextareaInput defaultValue={description} />
+          <TextareaInput name="description" defaultValue={description} />
           <CheckboxInput
             name="featured"
             label="Featured"

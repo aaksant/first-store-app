@@ -22,13 +22,13 @@ export default function ProductCard({
   return (
     <Card className="relative w-full max-w-sm overflow-hidden shadow-sm py-0">
       <Link href={`/products/${id}`} className="block">
-        <div className="overflow-hidden">
+        <div className="overflow-hidden px-4 py-8">
           <Image
             src={image}
             alt={name}
             width={300}
             height={300}
-            className="object-cover w-full h-64"
+            className="object-fill w-full h-64"
           />
         </div>
         <CardContent className="p-4">
@@ -41,9 +41,11 @@ export default function ProductCard({
           </h3>
         </CardContent>
       </Link>
-      <div className="relative">
-        <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
-      </div>
+      <FavoriteToggleButton
+        productId={id}
+        as="overlay"
+        className="right-3 bottom-2"
+      />
     </Card>
   );
 }

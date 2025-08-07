@@ -2,13 +2,19 @@ import FavoriteToggleButton from '@/components/products/favorite-toggle-button';
 import AddToCartButton from '@/components/single-product/add-to-cart-button';
 import Breadcrumbs from '@/components/single-product/breadcrumbs';
 import ProductRating from '@/components/single-product/product-rating';
-import { getSingleProduct } from '@/db/actions';
+import {
+  getProductReviews,
+  getSingleProduct,
+  hasUserReviewedProduct
+} from '@/db/actions';
 import { formatCurrency } from '@/utils/format';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import ShareButton from '@/components/single-product/share-button';
+import ReviewContainer from '@/components/reviews/review-container';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function SingleProductPage({
   params
@@ -19,67 +25,84 @@ export default async function SingleProductPage({
   if (!product) redirect('/');
   const { id, name, company, description, image, price } = product;
 
+  const reviews = await getProductReviews(id);
+  const { userId } = await auth();
+
+  const isAlreadyReviewed = userId
+    ? await hasUserReviewedProduct(userId, id)
+    : null;
   return (
-    <section>
+    <>
+      {/* breadcrumbs */}
       <Breadcrumbs name={name} id={id} />
-      <div className="grid gap-12 mt-8 md:grid-cols-2">
-        <div className="h-full relative">
+      <div className="mt-8 grid gap-8 lg:grid-cols-5 lg:gap-12">
+        {/* image */}
+        <div className="w-5/6 p-6 lg:w-full lg:col-span-2">
           <Image
             src={image}
             alt={name}
-            fill
-            priority
-            sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw,33vw"
-            className="w-full rounded-sm object-cover"
+            width={1000}
+            height={1333}
+            className="w-full h-auto"
+            sizes="(max-width: 1024px) 83vw, 40vw"
           />
         </div>
-        {/* <div className="relative">
-          <Badge variant="outline" className="w-fit mb-2">
-            {company}
-          </Badge>
-          <h3 className="font-bold text-xl tracking-tight capitalize">
-            {name}
-          </h3>
-          <ProductRating />
-          <p className="text-muted-foreground text-sm my-6">{description}</p>
-          <Separator />
-          <div className="flex gap-x-4 mt-6 items-center justify-end">
-            <h3 className="font-bold tracking-tight">
-              {formatCurrency(price)}
-            </h3>
-            <AddToCartButton />
-          </div>
-          <FavoriteToggleButton productId={id} className="right-3 top-0" />
-        </div> */}
-        <div className="relative">
-          <div>
-            <Badge variant="outline" className="w-fit mb-2">
-              {company}
-            </Badge>
-            <h3 className="font-bold text-xl tracking-tight capitalize">
+
+        {/* detail */}
+        <div className="space-y-6 lg:col-span-3">
+          <div className="space-y-2">
+            <h3 className="text-xl font-bold capitalize md:text-2xl lg:text-3xl">
               {name}
             </h3>
-            <ProductRating />
-            <p className="text-muted-foreground text-sm my-6">{description}</p>
-            <Separator />
-            <div className="flex gap-x-4 mt-6 items-center justify-end">
-              <h3 className="font-bold tracking-tight">
-                {formatCurrency(price)}
-              </h3>
-              <AddToCartButton />
-            </div>
+            <Badge variant="outline" className="w-fit">
+              {company}
+            </Badge>
+            <ProductRating reviews={reviews} />
           </div>
-          <div className="">
-            <FavoriteToggleButton productId={id} className="right-3 top-0" />
+          <div>
+            <h3 className="text-lg text-right text-primary font-bold tracking-tight">
+              {formatCurrency(price)}
+            </h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mt-2">
+              {description}
+            </p>
+          </div>
+
+          {/* quantity component here */}
+
+          {/* subtotal */}
+          <Separator />
+          <div className="w-full bg-accent p-4 rounded-md flex justify-between items-center">
+            <span className="text-sm font-semibold">Subtotal:</span>
+            <span className="font-bold tracking-tight">
+              {formatCurrency(price)}
+            </span>
+          </div>
+
+          {/* add to cart and favorite */}
+          <div className="flex gap-2">
+            <AddToCartButton className="flex-1" />
             <ShareButton
-              className="absolute right-13 top-0"
               productId={id}
               name={name}
               formattedPrice={formatCurrency(price)}
             />
+            <FavoriteToggleButton productId={id} as="inline" />
           </div>
         </div>
       </div>
-    </section>
+
+      {/* reviews */}
+      <div className="mt-12">
+        <h1 className="text-2xl font-bold tracking-tight my-6">
+          All reviews ({reviews.length})
+        </h1>
+        <ReviewContainer
+          productId={id}
+          reviews={reviews}
+          isAlreadyReviewed={isAlreadyReviewed}
+        />
+      </div>
+    </>
   );
 }

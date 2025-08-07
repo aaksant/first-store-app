@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'fmkuphczqcyiavrulrcl.supabase.co'
+      },
+      {
+        protocol: 'https',
+        hostname: 'fakestoreapi.com'
       }
     ]
   }

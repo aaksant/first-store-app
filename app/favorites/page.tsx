@@ -1,4 +1,4 @@
-import LoadingContainer from '@/components/globals/loading-container';
+import LoadingProductCard from '@/components/globals/loading-product-card';
 import SectionTitle from '@/components/globals/section-title';
 import NoProductFound from '@/components/products/no-product-found';
 import ProductsGrid from '@/components/products/products-grid';
@@ -14,7 +14,7 @@ export default async function FavoritesPage() {
   return (
     <>
       <SectionTitle text="Favorites" />
-      <Suspense fallback={<LoadingContainer />}>
+      <Suspense fallback={<LoadingProductCard />}>
         {totalFavorites === 0 ? (
           <NoProductFound text="You have no favorites" />
         ) : (

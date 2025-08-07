@@ -28,7 +28,7 @@ export default function ProductListItem({
               src={image}
               alt={name}
               fill
-              className="object-cover rounded-sm"
+              className="object-fill rounded-sm"
               sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw,33vw"
             />
           </div>
@@ -46,7 +46,11 @@ export default function ProductListItem({
         </CardContent>
       </Link>
       <div className="relative">
-        <FavoriteToggleButton productId={id} className="right-3 bottom-3" />
+        <FavoriteToggleButton
+          productId={id}
+          as="overlay"
+          className="right-3 bottom-3"
+        />
       </div>
     </Card>
   );

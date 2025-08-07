@@ -1,10 +1,10 @@
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { getItemsInCart } from '@/db/actions';
 
-export default function CartButton() {
-  // Temp
-  const numOfItems = 10;
+export default async function CartButton() {
+  const itemsInCart = await getItemsInCart();
 
   return (
     <Button
@@ -15,7 +15,7 @@ export default function CartButton() {
       <Link href="/cart">
         <ShoppingCart />
         <span className="absolute -top-3 -right-3 bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
-          {numOfItems}
+          {itemsInCart}
         </span>
       </Link>
     </Button>

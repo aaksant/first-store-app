@@ -9,16 +9,21 @@ import ProtectedFavoriteToggleButton from './protected-favorite-toggle-button';
 type FavoriteToggleButtonProps = {
   productId: string;
   className?: string;
+  as: 'overlay' | 'inline';
 };
 
 export default async function FavoriteToggleButton({
   productId,
-  className
+  className,
+  as
 }: FavoriteToggleButtonProps) {
   const { userId } = await auth();
   if (!userId) return <ProtectedFavoriteToggleButton className={className} />;
 
   const favoriteId = await getFavoriteId(productId);
+
+  const overlayStyle = 'btn absolute rounded-full backdrop-blur-sm';
+  const inlineStyle = 'btn rounded-md py-2 px-6 border';
 
   return (
     <FormContainer
@@ -36,7 +41,7 @@ export default async function FavoriteToggleButton({
             )}
           />
         }
-        className={cn('absolute rounded-full backdrop-blur-sm', className)}
+        className={cn(as === 'overlay' ? overlayStyle : inlineStyle, className)}
       />
     </FormContainer>
   );
