@@ -159,7 +159,7 @@ export async function getAdminProducts(
 
   const skip = (page - 1) * limit;
 
-  const [data, count] = await Promise.all([
+  const [data, count] = await prisma.$transaction([
     prisma.product.findMany({
       skip,
       take: limit,
