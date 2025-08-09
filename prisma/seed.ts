@@ -33,11 +33,11 @@ async function seedReviewModel(totalReviews: number) {
 
     for (let i = 0; i < totalReviews; i++) {
       const rating = faker.helpers.weightedArrayElement([
-        { weight: 5, value: 5 },
-        { weight: 25, value: 4 },
-        { weight: 40, value: 3 },
-        { weight: 20, value: 2 },
-        { weight: 10, value: 1 }
+        { weight: 25, value: 5 },
+        { weight: 35, value: 4 },
+        { weight: 20, value: 3 },
+        { weight: 15, value: 2 },
+        { weight: 5, value: 1 }
       ]);
 
       const review = {
