@@ -1,22 +1,29 @@
 import { PrismaClient } from '@prisma/client';
-import { DummyProduct } from '@/utils/types';
 import { faker } from '@faker-js/faker';
+import { dummyProducts } from './dummy-products/dummy-products';
 
 const prisma = new PrismaClient();
 
-async function getDummyProducts(): Promise<DummyProduct[] | null> {
-  try {
-    const response = await fetch('https://fakestoreapi.com/products');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return null;
+async function seedProductModel() {
+  if (!dummyProducts) {
+    console.log('Could not fetch sample products. Exiting seed process');
+    return;
+  }
+
+  for (const dummyProduct of dummyProducts) {
+    await prisma.product.create({
+      data: {
+        name: dummyProduct.title,
+        company: `${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()}`,
+        description: dummyProduct.description,
+        featured: Math.random() < 0.5,
+        image: dummyProduct.image,
+        price: Math.round(dummyProduct.price),
+        clerkId: 'clerkId'
+      }
+    });
   }
 }
-
 async function seedReviewModel(totalReviews: number) {
   try {
     const products = await prisma.product.findMany({
@@ -59,28 +66,6 @@ async function seedReviewModel(totalReviews: number) {
   }
 }
 
-async function seedProductModel() {
-  const dummyProducts = await getDummyProducts();
-  if (!dummyProducts) {
-    console.log('Could not fetch sample products. Exiting seed process.');
-    return;
-  }
-
-  for (const sampleProduct of dummyProducts) {
-    await prisma.product.create({
-      data: {
-        name: sampleProduct.title,
-        company: `${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()}`,
-        description: sampleProduct.description,
-        featured: Math.random() < 0.5,
-        image: sampleProduct.image,
-        price: Math.round(sampleProduct.price),
-        clerkId: 'clerkId'
-      }
-    });
-  }
-}
-
 async function main() {
   // clear records
   await prisma.review.deleteMany({});
@@ -88,7 +73,7 @@ async function main() {
   await prisma.product.deleteMany({});
 
   await seedProductModel();
-  await seedReviewModel(200);
+  await seedReviewModel(1000);
 }
 
 main()
