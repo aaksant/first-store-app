@@ -12,7 +12,7 @@ import {
   TableRow
 } from '../ui/table';
 import Link from 'next/link';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency } from '@/utils/index';
 import { Pen, Trash2 } from 'lucide-react';
 import PaginationContainer from '../globals/pagination-container';
 

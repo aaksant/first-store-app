@@ -2,7 +2,7 @@ import { type Review } from '@prisma/client';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Avatar } from '../ui/avatar';
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { formatDate } from '@/utils/format';
+import { formatDate } from '@/utils/index';
 import StarRating from './star-rating';
 
 type ReviewCardProps = {

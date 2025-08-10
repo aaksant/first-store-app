@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent } from '../ui/card';
 import Image from 'next/image';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency } from '@/utils/index';
 import FavoriteToggleButton from './favorite-toggle-button';
 
 type ProductListItemProps = {

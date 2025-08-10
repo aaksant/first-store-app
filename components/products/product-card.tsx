@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Card, CardContent } from '../ui/card';
 import FavoriteToggleButton from './favorite-toggle-button';
 import Link from 'next/link';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency } from '@/utils/index';
 
 type ProductCardProps = {
   id: string;
