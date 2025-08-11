@@ -275,6 +275,15 @@ export async function getProductReviews(productId: string) {
   });
 }
 
+export async function getRatingDistribution(productId: string) {
+  return await prisma.review.groupBy({
+    where: { productId },
+    by: ['rating'],
+    _count: { rating: true },
+    orderBy: { rating: 'desc' }
+  });
+}
+
 export async function hasUserReviewedProduct(
   userId: string,
   productId: string
