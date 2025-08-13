@@ -17,7 +17,7 @@ import { deleteImage, uploadImage } from './supabase';
 import { ActionStatus, PaginationResult } from '@/utils/types';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { Product } from '@prisma/client';
+import { Product, Review } from '@prisma/client';
 import { auth } from '@clerk/nextjs/server';
 
 export async function getFeaturedProducts() {
@@ -268,11 +268,48 @@ export async function createReviewAction(
   }
 }
 
-export async function getProductReviews(productId: string) {
-  return await prisma.review.findMany({
-    where: { productId },
-    orderBy: { createdAt: 'desc' }
-  });
+export async function getProductReviewData({
+  productId,
+  page = 1,
+  limit = 5
+}: {
+  productId: string;
+  page?: number;
+  limit?: number;
+}) {
+  const skip = (page - 1) * limit;
+
+  const [data, count, averageRatingResult] = await prisma.$transaction([
+    prisma.review.findMany({
+      where: { productId },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip
+    }),
+    prisma.review.count({
+      where: { productId }
+    }),
+    prisma.review.aggregate({
+      where: { productId },
+      _avg: { rating: true }
+    })
+  ]);
+
+  const totalPages = Math.ceil(count / limit);
+  const averageRating = averageRatingResult._avg.rating?.toFixed(1) || '0.0';
+  const paginatedReviews: PaginationResult<Review> = {
+    data,
+    count,
+    totalPages,
+    currentPage: page,
+    hasNextPage: page < totalPages,
+    hasPreviousPage: page > 1
+  };
+
+  return {
+    paginatedReviews,
+    averageRating
+  };
 }
 
 export async function getRatingDistribution(productId: string) {
