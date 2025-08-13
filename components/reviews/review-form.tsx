@@ -38,7 +38,7 @@ export default function ReviewForm({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mb-6">
       <div className="text-center">
         <Button
           onClick={() => setIsFormShown(!isFormShown)}
