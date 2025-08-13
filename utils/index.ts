@@ -14,15 +14,3 @@ export function formatDate(date: Date) {
     day: 'numeric'
   }).format(date);
 }
-
-export function getProductAverageRating(reviews: Review[]) {
-  return (
-    reviews
-      .map((review) => review.rating)
-      .reduce((prev, current) => prev + current, 0) / reviews.length
-  ).toFixed(1);
-}
-
-export function getProductReviewsCount(reviews: Review[]) {
-  return reviews.length;
-}
