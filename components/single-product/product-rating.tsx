@@ -1,21 +1,21 @@
-import { getProductAverageRating, getProductReviewsCount } from '@/utils';
-import { Review } from '@prisma/client';
 import { Star } from 'lucide-react';
 
 type ProductRatingProps = {
-  reviews: Review[];
+  averageRating: string;
+  count: number;
 };
 
-export default function ProductRating({ reviews }: ProductRatingProps) {
+export default function ProductRating({
+  averageRating,
+  count
+}: ProductRatingProps) {
   return (
     <p className="flex gap-x-2 items-center text-sm mt-1">
       <span className="inline-flex items-center gap-x-1 font-semibold">
         <Star size={15} className="text-yellow-400 fill-yellow-400" />
-        {getProductAverageRating(reviews)}
+        {averageRating}
       </span>
-      <span className="text-primary">
-        [{getProductReviewsCount(reviews)} reviews]
-      </span>
+      <span className="text-primary">{count}</span>
     </p>
   );
 }
