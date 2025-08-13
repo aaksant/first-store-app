@@ -10,7 +10,7 @@ export default function StarRating({ rating }: StarRatingProps) {
       {stars.map((starValue) => (
         <Star
           key={starValue}
-          className={`w-5 h-5 transition-colors ${
+          className={`w-4 h-4 md:w-5 md:h-5 transition-colors ${
             starValue <= rating
               ? 'text-yellow-400 fill-yellow-400'
               : 'text-gray-300'
