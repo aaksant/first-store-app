@@ -14,15 +14,15 @@ export default function ReviewCard({ review }: ReviewCardProps) {
     <Card>
       <CardHeader className="flex items-center justify-between">
         <div className="flex items-center gap-x-3">
-          <Avatar>
+          <Avatar className="hidden md:block">
             <AvatarImage src={review.authorProfileImageUrl} />
             <AvatarFallback>{review.authorName.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="space-y-1/3">
-            <h4 className="font-semibold tracking-tight md:text-base">
+            <h4 className="font-bold text-sm tracking-tight md:text-base md:font-semibold">
               {review.authorName}
             </h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground md:text-sm">
               {formatDate(review.createdAt)}
             </p>
           </div>
@@ -30,7 +30,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
         <StarRating rating={review.rating} />
       </CardHeader>
       <CardContent>
-        <p className="text-sm md:text-base">{review.comment}</p>
+        <p className="text-sm md:text-base leading-relaxed">{review.comment}</p>
       </CardContent>
     </Card>
   );
