@@ -5,20 +5,22 @@ import { cn } from '@/lib/utils';
 
 type ProtectedFavoriteToggleButtonProps = {
   className?: string;
+  as: 'overlay' | 'inline';
 };
 
 export default function ProtectedFavoriteToggleButton({
-  className
+  className,
+  as
 }: ProtectedFavoriteToggleButtonProps) {
+  const overlayStyle = 'btn absolute rounded-full backdrop-blur-sm';
+  const inlineStyle = 'btn rounded-md py-2 px-6 border';
+
   return (
     <SignInButton>
       <Button
         size="icon"
         variant="ghost"
-        className={cn(
-          'absolute rounded-full backdrop-blur-sm btn text-muted-foreground',
-          className
-        )}
+        className={cn(as === 'overlay' ? overlayStyle : inlineStyle, className)}
       >
         <Heart className="stroke-red-500 fill-none" />
       </Button>

@@ -15,7 +15,7 @@ export default function ProductRating({
         <Star size={15} className="text-yellow-400 fill-yellow-400" />
         {averageRating}
       </span>
-      <span className="text-primary">{count}</span>
+      <span className="text-primary">{count} reviews</span>
     </p>
   );
 }

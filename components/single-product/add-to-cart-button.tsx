@@ -13,7 +13,7 @@ export default async function AddToCartButton({
 }: AddToCartButtonProps) {
   const { userId } = await auth();
 
-  if (!userId) return <ProtectedAddToCartButton />;
+  if (!userId) return <ProtectedAddToCartButton className={className} />;
 
   return (
     <Button size="default" className={cn('btn', className)}>

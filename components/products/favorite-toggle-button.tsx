@@ -18,7 +18,8 @@ export default async function FavoriteToggleButton({
   as
 }: FavoriteToggleButtonProps) {
   const { userId } = await auth();
-  if (!userId) return <ProtectedFavoriteToggleButton className={className} />;
+  if (!userId)
+    return <ProtectedFavoriteToggleButton className={className} as={as} />;
 
   const favoriteId = await getFavoriteId(productId);
 
