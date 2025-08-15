@@ -19,6 +19,10 @@ async function seedProductModel() {
         featured: Math.random() < 0.5,
         image: dummyProduct.image,
         price: Math.round(dummyProduct.price),
+        stock: faker.number.int({
+          min: 5,
+          max: 25
+        }),
         clerkId: 'clerkId'
       }
     });
