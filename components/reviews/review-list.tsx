@@ -44,7 +44,9 @@ export default function ReviewList({
       setCurrentPage(nextPage);
       setHasNextPage(paginatedReviews.hasNextPage);
     } catch (error: unknown) {
-      toast.error('Failed to load more reviews');
+      const errorMessage =
+        error instanceof Error ? error.message : 'An error occured';
+      toast.error(`Failed to load more reviews [${errorMessage}]`);
     } finally {
       setIsLoading(false);
     }
