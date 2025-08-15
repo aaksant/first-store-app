@@ -80,7 +80,7 @@ export default function ReviewList({
 
       {!hasNextPage && (
         <p className="text-center text-muted-foreground text-sm">
-          You've seen all {totalCount} review{totalCount !== 1 ? 's' : ''}
+          You have seen all {totalCount} review{totalCount !== 1 ? 's' : ''}
         </p>
       )}
     </div>
