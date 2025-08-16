@@ -18,6 +18,8 @@ import ReviewSummary from '@/components/reviews/review-summary';
 import ReviewForm from '@/components/reviews/review-form';
 import ReviewList from '@/components/reviews/review-list';
 import { auth } from '@clerk/nextjs/server';
+import { Button } from '@/components/ui/button';
+import QuantityCounter from '@/components/single-product/quantity-counter';
 
 export default async function SingleProductPage({
   params
@@ -26,7 +28,7 @@ export default async function SingleProductPage({
 }) {
   const product = await getSingleProduct((await params).id);
   if (!product) redirect('/');
-  const { id, name, company, description, image, price } = product;
+  const { id, name, company, description, image, price, stock } = product;
 
   const { paginatedReviews, averageRating } = await getProductReviewData({
     productId: id,
@@ -77,23 +79,28 @@ export default async function SingleProductPage({
             </p>
           </div>
 
-          {/* quantity component here */}
-
           <Separator />
-          <div className="w-full bg-accent p-4 rounded-md flex justify-between items-center">
-            <span className="text-sm font-semibold">Subtotal:</span>
-            <span className="font-bold tracking-tight">
-              {formatCurrency(price)}
-            </span>
-          </div>
-          <div className="flex gap-2">
-            <AddToCartButton className="flex-1" />
-            <ShareButton
-              productId={id}
-              name={name}
-              formattedPrice={formatCurrency(price)}
-            />
-            <FavoriteToggleButton productId={id} as="inline" />
+
+          <div className="space-y-4">
+            <h2 className="font-semibold tracking-tight">Set order</h2>
+            <QuantityCounter stock={stock} />
+            <div className="w-full bg-accent p-4 rounded-md flex justify-between items-center">
+              <span className="text-sm font-semibold text-muted-foreground">
+                Subtotal:
+              </span>
+              <span className="font-bold tracking-tight">
+                {formatCurrency(price)}
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <AddToCartButton className="flex-1" />
+              <ShareButton
+                productId={id}
+                name={name}
+                formattedPrice={formatCurrency(price)}
+              />
+              <FavoriteToggleButton productId={id} as="inline" />
+            </div>
           </div>
         </div>
       </div>
