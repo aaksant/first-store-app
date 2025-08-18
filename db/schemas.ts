@@ -57,6 +57,19 @@ export const reviewSchema = z.object({
   })
 });
 
+export function createCartItemSchema(stock: number) {
+  return z.object({
+    productId: z.string().refine((input) => input.length !== 0, {
+      message: 'Product ID cannot be empty'
+    }),
+    amount: z.coerce
+      .number()
+      .int()
+      .min(1, { message: 'Amount must be at least 1' })
+      .max(stock, { message: `Only ${stock} available` })
+  });
+}
+
 export function validateWithZodSchema<T>(
   schema: ZodType<T>,
   inputData: unknown
