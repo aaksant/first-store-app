@@ -2,24 +2,27 @@
 
 import { Minus, Plus } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useState } from 'react';
 
-type QuantityCounterProps = {
+type AmountCounterProps = {
   stock: number;
+  amount: number;
+  setAmount: (amount: number) => void;
 };
 
-export default function QuantityCounter({ stock }: QuantityCounterProps) {
-  const [quantity, setQuantity] = useState<number>(1);
-
-  const increaseQuantity = () => {
-    if (quantity < stock) {
-      setQuantity(quantity + 1);
+export default function AmountCounter({
+  stock,
+  amount,
+  setAmount
+}: AmountCounterProps) {
+  const increaseAmount = () => {
+    if (amount < stock) {
+      setAmount(amount + 1);
     }
   };
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const decreaseAmount = () => {
+    if (amount > 1) {
+      setAmount(amount - 1);
     }
   };
 
@@ -31,20 +34,22 @@ export default function QuantityCounter({ stock }: QuantityCounterProps) {
             variant="ghost"
             size="sm"
             className="btn h-10 w-10 rounded-r-none"
-            disabled={quantity <= 1}
-            onClick={decreaseQuantity}
+            type="button"
+            disabled={amount <= 1}
+            onClick={decreaseAmount}
           >
             <Minus className="w-4 h-4" />
           </Button>
-          <div className="flex h-10 w-16 items-center justify-center border-x bg-background text-sm font-medium">
-            {quantity}
+          <div className="flex h-10 w-16 items-center justify-center border-x">
+            <span className="text-sm font-medium">{amount}</span>
           </div>
           <Button
             variant="ghost"
             size="sm"
             className="btn h-10 w-10 rounded-l-none"
-            disabled={quantity > stock}
-            onClick={increaseQuantity}
+            type="button"
+            disabled={amount > stock}
+            onClick={increaseAmount}
           >
             <Plus className="w-4 h-4" />
           </Button>
