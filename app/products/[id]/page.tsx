@@ -1,5 +1,3 @@
-import FavoriteToggleButton from '@/components/products/favorite-toggle-button';
-import AddToCartButton from '@/components/single-product/add-to-cart-button';
 import Breadcrumbs from '@/components/single-product/breadcrumbs';
 import ProductRating from '@/components/single-product/product-rating';
 import {
@@ -13,11 +11,14 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import ShareButton from '@/components/single-product/share-button';
 import ReviewSummary from '@/components/reviews/review-summary';
 import ReviewForm from '@/components/reviews/review-form';
 import ReviewList from '@/components/reviews/review-list';
 import { auth } from '@clerk/nextjs/server';
+import AmountSubtotal from '@/components/single-product/amount-subtotal';
+import AddToCartButton from '@/components/single-product/add-to-cart-button';
+import FavoriteToggleButton from '@/components/products/favorite-toggle-button';
+import ShareButton from '@/components/single-product/share-button';
 
 export default async function SingleProductPage({
   params
@@ -44,22 +45,32 @@ export default async function SingleProductPage({
     <>
       <Breadcrumbs name={name} id={id} />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-5 lg:gap-12">
-        <div className="w-5/6 p-6 lg:w-full lg:col-span-2">
+      <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-12">
+        <div className="w-128 mx-auto p-6 md:w-full md:mx-0 md:col-span-1 lg:col-span-2">
           <Image
             src={image}
             alt={name}
             width={1000}
             height={1333}
-            className="w-full h-auto"
-            sizes="(max-width: 1024px) 83vw, 40vw"
+            className="w-full h-auto rounded-lg"
+            sizes="(max-width: 768px) 512px, (max-width: 1024px) 50vw, 40vw"
           />
         </div>
-        <div className="space-y-6 lg:col-span-3">
+        <div className="space-y-6 md:col-span-1 lg:col-span-3">
           <div className="space-y-2">
-            <h3 className="text-xl font-bold capitalize md:text-2xl lg:text-3xl">
-              {name}
-            </h3>
+            <div className="flex gap-x-4 md:gap-x-2">
+              <h3 className="flex-1 text-xl font-bold capitalize md:text-2xl lg:text-3xl">
+                {name}
+              </h3>
+              <div className="flex gap-x-1">
+                <ShareButton
+                  productId={id}
+                  name={name}
+                  formattedPrice={formatCurrency(price)}
+                />
+                <FavoriteToggleButton productId={id} as="inline" />
+              </div>
+            </div>
             <Badge variant="outline" className="w-fit">
               {company}
             </Badge>
@@ -77,24 +88,10 @@ export default async function SingleProductPage({
             </p>
           </div>
 
-          {/* quantity component here */}
-
           <Separator />
-          <div className="w-full bg-accent p-4 rounded-md flex justify-between items-center">
-            <span className="text-sm font-semibold">Subtotal:</span>
-            <span className="font-bold tracking-tight">
-              {formatCurrency(price)}
-            </span>
-          </div>
-          <div className="flex gap-2">
-            <AddToCartButton className="flex-1" />
-            <ShareButton
-              productId={id}
-              name={name}
-              formattedPrice={formatCurrency(price)}
-            />
-            <FavoriteToggleButton productId={id} as="inline" />
-          </div>
+          <AmountSubtotal product={product}>
+            <AddToCartButton className="w-full" />
+          </AmountSubtotal>
         </div>
       </div>
 

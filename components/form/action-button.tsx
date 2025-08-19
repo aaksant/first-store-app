@@ -9,20 +9,38 @@ import { cn } from '@/lib/utils';
 type ActionButtonProps = {
   className?: string;
   icon?: ReactNode;
+  variant?:
+    | 'link'
+    | 'default'
+    | 'destructive'
+    | 'outline'
+    | 'secondary'
+    | 'ghost';
+  size?: 'icon' | 'default' | 'sm' | 'lg';
+  text?: string;
+  pendingText?: string;
 };
 
-export default function ActionButton({ className, icon }: ActionButtonProps) {
+export default function ActionButton({
+  className,
+  icon,
+  variant = 'ghost',
+  size = 'icon',
+  text,
+  pendingText
+}: ActionButtonProps) {
   const { pending } = useFormStatus();
 
   return (
     <Button
       type="submit"
       disabled={pending}
-      variant="ghost"
-      size="icon"
-      className={cn('btn text-muted-foreground', className)}
+      variant={variant}
+      size={size}
+      className={cn('btn', className)}
     >
       {pending ? <LoaderCircle className="animate-spin" /> : icon}
+      {pending ? pendingText : text}
     </Button>
   );
 }

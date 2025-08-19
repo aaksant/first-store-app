@@ -19,15 +19,15 @@ export default function ReviewSummary({
       <div className="text-center space-y-4">
         <div className="space-y-2">
           <div className="flex justify-center items-baseline gap-1">
-            <h3 className="text-5xl font-bold">{averageRating}</h3>
-            <span className="text-2xl text-muted-foreground font-semibold">
+            <h3 className="text-3xl md:text-5xl font-bold">{averageRating}</h3>
+            <span className="text-xl md:text-2xl text-muted-foreground font-semibold">
               / 5
             </span>
           </div>
           <div className="flex items-center justify-center">
             <StarRating rating={parseInt(averageRating)} />
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs md:text-sm text-muted-foreground">
             Based on {count} review{count > 1 ? 's' : ''}
           </p>
         </div>

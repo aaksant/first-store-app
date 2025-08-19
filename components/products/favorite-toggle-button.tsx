@@ -24,7 +24,7 @@ export default async function FavoriteToggleButton({
   const favoriteId = await getFavoriteId(productId);
 
   const overlayStyle = 'btn absolute rounded-full backdrop-blur-sm';
-  const inlineStyle = 'btn rounded-md py-2 px-6 border';
+  const inlineStyle = 'btn rounded-md py-2 px-4 border';
 
   return (
     <FormContainer
