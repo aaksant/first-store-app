@@ -14,5 +14,14 @@ export default async function AddToCartButton({
 
   if (!userId) return <ProtectedAddToCartButton className={className} />;
 
-  return <ActionButton icon={<ShoppingCart />} className={className} />;
+  return (
+    <ActionButton
+      className={className}
+      icon={<ShoppingCart />}
+      variant="default"
+      size="default"
+      text="Add to cart"
+      pendingText="Adding item to cart"
+    />
+  );
 }
